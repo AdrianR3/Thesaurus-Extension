@@ -1,0 +1,25 @@
+{
+    "manifest_version": 3,
+    "name": "Thesaurus Extension",
+    "version": "0.1.0",
+    "description": "An easy thesaurus extension",
+    "background": {
+      "service_worker": "scripts/background.js"
+    },
+    "action": {
+      "default_title": "Thesaurus Extension",
+      "default_popup": "pages/popup/popup.html"
+    },
+    "permissions": [],
+    "content_scripts": [
+      {
+        "matches": [
+          "<all_urls>"
+        ],
+        "run_at": "document_idle",
+        "js": [
+          "scripts/content.js"
+        ]
+      }
+    ]
+  }
