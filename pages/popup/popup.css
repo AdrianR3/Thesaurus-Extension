@@ -11,7 +11,7 @@
 html
 {
     /*width: 800px;  /* max: 800px */
-    width: 100vw;  /* max: 800px */
+    width: 300px;  /* max: 800px */
     height: 600px; /* max: 600px */
 }
 
@@ -31,11 +31,25 @@ html
     --d-bright-b: #0020A1;
 }
 
+body {
+    margin: 0px !important;
+}
+
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: var(--l-primary-color) solid 1px;
+    outline: var(--l-primary-color) solid 4px;
+    transition: outline 0.25s;
+}
+
+input, button, select, textarea {
+    transition: outline 0.25s;
+}
+
+input:hover {
+    outline: var(--l-primary-color) solid 4px;
+    transition: outline 0.25s, transform 0.5s;
 }
 
 .container.top {
@@ -45,7 +59,7 @@ button:focus {
 
     position: fixed;
     top:0; left:0; right:0;
-    height: 40px;
+    /* height: 30px; */
 
     z-index: 100;
 
@@ -60,14 +74,6 @@ button:focus {
 
 }
 
-/* .container.top .searchBar:nth-child(1) {
-    
-}
-
-.container.top .searchBar:nth-child(2) {
-    
-} */
-
 form.searchBar {
     /* position: absolute; */
 
@@ -76,7 +82,7 @@ form.searchBar {
     left: 0px;
     /* right: 0px; */
     
-    height: 40px;
+    height: 30px;
 
     /* display: flex;
     flex-direction: row;
@@ -123,8 +129,8 @@ form input:first-child {
     order: 0; */
 }
 
-form input:nth-child(2) {
-    --shrink-size: 10px;
+form input:nth-child(2)#go {
+    --shrink-size: 8px;
     /* display: block;
     flex-grow: 0;
     flex-shrink: 0;
@@ -143,18 +149,32 @@ form input:nth-child(2) {
     z-index: 1000;
 
     background-color: var(--d-bright-g);
+
+    padding: 0.5px 0px 0px 0.5px;
+    text-align: center;
+
+    /* transition: transform 0.5s; */
+}
+
+#go:hover, #go:active {
+    transform: rotate(360deg);
 }
 
 .container.content {
     background-color: var(--d-bg-color);
     color: var(--d-text-color);
 
-    /* position: relative; */
     min-height: calc(100vh - 80px);
-    transform: translateY(80px);
+    transform: translateY(70px);
+
+    padding: 10px;
+
+    position: absolute;
+    left: 0px;
+    right: 0px;
     
-    width: 100vw;
-    /* top: 40px; */
+    /* width: auto; */
+    /* top: 20px; */
     /* bottom: 0; */
     /* left: 0; right: 0; */
 }
