@@ -4,14 +4,19 @@
     margin: 0;
     padding: 0;
 
-    font-family: 'Work Sans';
+    font-family: 'Work Sans', sans-serif;
     overscroll-behavior: none;
 }
 
 html
 {
-    /* Maximums: width: 800px;  height: 600px */
+    /* Maximums: 
+
+    width: 800px;  
+    height: 600px */
+
     width: 350px;
+
     min-height: 70px;
     height: 70px;
 
@@ -22,7 +27,7 @@ html
     --l-primary-color: #eb4034;
     --l-bg-color: #ffffff;
 
-    --d-border-color: #ababab;/*var(--l-bg-color); */
+    --d-border-color: #ababab; /* var(--l-bg-color); */
     --d-text-color: var(--l-bg-color);
 
 
@@ -31,38 +36,46 @@ html
     --d-bright-p: #FF1C6F;
     --d-bright-y: #FFFF00;
     --d-bright-o: #FF5900;
-    --d-bright-b: #0020A1;
+    --d-dark-o: rgb(127, 34, 13);
+    --d-bright-b: #58b1ff;
 }
 
 body {
     margin: 0px !important;
 }
 
+input,
+select,
+textarea,
+button
+{
+    transition: outline 0.25s;
+}
+
 input:focus,
 select:focus,
 textarea:focus,
-button:focus {
-    outline: var(--l-primary-color) solid 4px;
+button:focus
+{
+    outline: var(--d-dark-o) solid 4px;
     transition: outline 0.25s;
 }
 
-input, button, select, textarea {
-    transition: outline 0.25s;
-}
-
-input:hover {
-    outline: var(--l-primary-color) solid 4px;
+input:hover,
+select:hover,
+textarea:hover,
+button:hover
+{
+    outline: var(--d-bright-o) solid 4.1px;
     transition: outline 0.25s, transform 0.5s;
 }
 
 .container.top {
     background-color: var(--d-bg-color);
     border-bottom: 1px solid var(--d-border-color);
-    /* outline-offset: -20px; */
 
     position: fixed;
     top:0; left:0; right:0;
-    /* height: 30px; */
 
     z-index: 100;
 
@@ -74,25 +87,11 @@ input:hover {
     justify-content: normal;
     align-items: normal;
     align-content: normal;
-
 }
 
 form.searchBar {
-    /* position: absolute; */
-
-    /* padding: 0px 20px; */
-
     left: 0px;
-    /* right: 0px; */
-    
     height: 30px;
-
-    /* display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: normal;
-    align-items: normal;
-    align-content: normal; */
 
     display: block;
     flex-grow: 1;
@@ -100,8 +99,6 @@ form.searchBar {
     flex-basis: auto;
     align-self: auto;
     order: 0;
-
-    /* z-index: 101; */
 }
 
 form input {
@@ -112,8 +109,6 @@ form input {
     height: 20px;
 
     min-width: 20px;
-    /* min-height: 30px; */
-    /* position: relative; */
 }
 
 form input:first-child {
@@ -123,23 +118,10 @@ form input:first-child {
     position: absolute;
     left: 20px;
     right: 20px;
-
-    /* display: block;
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: auto;
-    align-self: auto;
-    order: 0; */
 }
 
 form input:nth-child(2)#go {
     --shrink-size: 8px;
-    /* display: block;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: auto;
-    align-self: auto;
-    order: 0; */
 
     position: absolute;
     right: calc(20px + var(--shrink-size) / 2);
@@ -151,15 +133,18 @@ form input:nth-child(2)#go {
 
     z-index: 1000;
 
-    background-color: var(--d-bright-g);
+    background-color: var(--d-bright-b);
 
     padding: 0.5px 0px 0px 0.5px;
     text-align: center;
-
-    /* transition: transform 0.5s; */
 }
 
-#go:hover, #go:active {
+form input:nth-child(2)#go:hover, 
+form input:nth-child(2)#go:active 
+{
+    background-color: #000000;
+    color: white;
+
     transform: rotate(360deg);
 }
 
@@ -177,11 +162,6 @@ form input:nth-child(2)#go {
     right: 0px;
 
     overflow-y: auto;
-    
-    /* width: auto; */
-    /* top: 20px; */
-    /* bottom: 0; */
-    /* left: 0; right: 0; */
 }
 
 ol#synonymList {
@@ -192,62 +172,37 @@ li {
     list-style: none;
 }
 
-li.synonym {
+li.rounded-word {
     display: inline-block;
     padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
     border-radius: 20px;
     font-size: 14px;
     margin: 5px;
     text-align: center;
     white-space: nowrap;
+
     user-select: none;
     cursor: pointer;
+}
+
+li.synonym, li.antonym {
     transition: background-color 0.25s;
+}
+
+li.synonym {
+    background-color: #4CAF50;
+    color: white;
 }
 
 li.antonym {
-    display: inline-block;
-    padding: 5px 10px;
     background-color: #af4e4c;
     color: white;
-    border-radius: 20px;
-    font-size: 14px;
-    margin: 5px;
-    text-align: center;
-    white-space: nowrap;
-    user-select: none;
-    cursor: pointer;
-    transition: background-color 0.25s;
 }
-
-#synonymList.copy-mode li.synonym {
-    cursor: copy;
-}
-
-#synonymList.copy-mode li.synonym:hover {
-    font-weight: bold;
-}
-
-#synonymList.open-mode li.synonym {
-    cursor: alias;
-}
-
-#synonymList.open-mode li.synonym:hover {
-    font-weight: bold;
-}
-
-/* #menu li { padding: 0px; } */
-li.synonym a { margin: 0px; display: block; width: 100%; height: 100%; }
 
 li.none-found {
     background-color: #af5e4c;
 }
 
-li.none-found:hover {
-    background-color: #da5436;
-}
 
 li.synonym:hover {
     background-color: #70ea74;
@@ -259,11 +214,34 @@ li.antonym:hover {
     color: black;
 }
 
-li.synonym::selection {
-    color: red;
-    background: yellow;
+li.none-found:hover {
+    background-color: #da5436;
 }
 
-@keyframes spin1 { 100% { transform:rotate(360deg); } }
-@keyframes spin2 { 100% { transform:rotate(-360deg); } }
+#synonymList.copy-mode li.rounded-word,
+#synonymList.copy-mode li.compact-word
+{
+    cursor: copy;
+}
+
+#synonymList.open-mode li.rounded-word,
+#synonymList.open-mode li.compact-word
+{
+    cursor: alias;
+}
+
+#synonymList.copy-mode li.rounded-word:hover,
+#synonymList.open-mode li.rounded-word:hover,
+#synonymList.copy-mode li.compact-word:hover,
+#synonymList.open-mode li.compact-word:hover
+{
+    font-weight: bold;
+}
+
+::selection {
+    color: var(--l-primary-color);
+    background: var(--d-bright-y);
+}
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
 @keyframes idle { 100% {} }

@@ -1,12 +1,11 @@
-console.log("popup.js | Hello world!")
+console.log("Easy Thesaurus Extension | popup.js")
 
 // Fetch config file
 fetch(chrome.runtime.getURL('env.json'))
     .then(response => response.json())
     .then(data => {
-        let useMerriamWebster = true;
-
-        useMerriamWebster = data.use_merriam_webster;
+        const useMerriamWebster = data.use_merriam_webster;
+        const compactMode = data.compact_mode;
 
         const queryParameters = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
@@ -33,12 +32,12 @@ fetch(chrome.runtime.getURL('env.json'))
         let form = document.getElementById('searchForm');
         if (form.attachEvent) {
             form.attachEvent("submit", processForm);
-            // form.attachEvent("keyup", keyEvent);
+
             document.attachEvent("keyup", keyEvent);
             document.attachEvent("keydown", keyEvent);
         } else {
             form.addEventListener("submit", processForm);
-            // form.addEventListener("keyup", keyEvent);
+
             document.addEventListener("keyup", keyEvent);
             document.addEventListener("keydown", keyEvent);
         }
@@ -49,32 +48,23 @@ fetch(chrome.runtime.getURL('env.json'))
             const word = document.getElementById('search').value;
             document.activeElement.blur();
 
-            document.getElementById('go').style.animation="spin1 4s linear infinite";
+            document.getElementById('go').style.animation="spin 4s linear infinite";
 
             const options = {
-                method: 'GET', 
-                // headers: {'User-Agent': 'insomnia/9.3.3'}
+                method: 'GET',
             };
 
             let key = "";
             let api = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
 
             if (useMerriamWebster) {
-
-                await fetch(chrome.runtime.getURL('env.json'))
-                    .then(response => response.json())
-                    .then(data => {
-                        key = data.api_key;
-                        api = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${key}`
-                    })
-                    .catch(error => console.error('Error loading JSON:', error));
-
-            }   
+                key = data.api_key;
+                api = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${key}`
+            }
 
             fetch(api, options)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response)
                     const synonyms = useMerriamWebster ? findValuesByKey(response, "syns") : findValuesByKey(response, "synonyms");
                     const antonyms = useMerriamWebster ? findValuesByKey(response, "ants") : findValuesByKey(response, "antonyms");
                     changeContent(synonyms);
@@ -103,16 +93,24 @@ fetch(chrome.runtime.getURL('env.json'))
             
             if (synonyms.length == 0) {
                 const item = document.createElement('li');
+
                 item.classList.add(isAntonym ? 'antonym' : 'synonym', 'none-found')
+                item.classList.add(compactMode ? 'compact-word' : 'rounded-word')
+
                 item.textContent = `No ${isAntonym ? 'Antonyms' : 'Synonyms'} Found`
+
                 synonymList.appendChild(item);
             } else {
                 synonyms.forEach(synonym => {
                     const item = document.createElement('li');
                     item.setAttribute('href', `https://www.merriam-webster.com/dictionary/${synonym}`)
                     item.addEventListener('click', synonymClick);
+
                     item.classList.add(isAntonym ? 'antonym' : 'synonym')
+                    item.classList.add(compactMode ? 'compact-word' : 'rounded-word')
+
                     item.textContent = synonym;
+
                     synonymList.appendChild(item);
                 });
             }
@@ -120,12 +118,11 @@ fetch(chrome.runtime.getURL('env.json'))
         }
 
         function synonymClick(e) {
-            console.log(e)
             if (e.shiftKey) {
                 navigator.clipboard.writeText(e.target.innerText);
                 console.log(`'${e.target.innerText}' copied to clipboard.`)
             } else if (e.altKey) {
-                chrome.tabs.create({url: e.target.getAttribute('href'), active: false});
+                chrome.tabs.create({url: e.target.getAttribute('href'), active: true});
             } else {
                 window.location.href = `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${e.target.innerText}`;
                 console.log(`Navigating to '${e.target.innerText}'.`)
@@ -156,11 +153,12 @@ fetch(chrome.runtime.getURL('env.json'))
         }
 
         function keyEvent(e) {
-            console.log(e)
             if (e.keyCode == 9) {
-                if (e.type != "keydown") return;
-                e.preventDefault();
-                console.log("Tab key pressed")
+                // if (e.type != "keydown") return;
+                // e.preventDefault();
+                // console.log("Tab key pressed")
+
+                // TODO: Some sort of tab-completion for words
             } else if (e.keyCode == 16) {
                 if (e.type == 'keyup') {
                     document.getElementById('synonymList').classList.remove('copy-mode');
