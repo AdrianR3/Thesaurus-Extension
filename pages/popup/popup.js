@@ -39,9 +39,17 @@ function processForm(e) {
 
     document.getElementById('go').style.animation="spin1 4s linear infinite";
 
-    const options = {method: 'GET', headers: {'User-Agent': 'insomnia/9.3.3'}};
+    const options = {
+        method: 'GET', 
+        // headers: {'User-Agent': 'insomnia/9.3.3'}
+    };
 
-    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`, options)
+    const api = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+
+    // const key = "";
+    // const api = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${key}`
+
+    fetch(api, options)
         .then(response => response.json())
         .then(response => {
             const synonyms = findValuesByKey(response, "synonyms");

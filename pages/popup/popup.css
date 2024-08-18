@@ -191,6 +191,38 @@ li {
     list-style: none;
 }
 
+li.synonym {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 5px;
+    text-align: center;
+    white-space: nowrap;
+    user-select: all;
+    transition: background-color 0.25s;
+}
+
+li.none-found {
+    background-color: #af5e4c;
+}
+
+li.none-found:hover {
+    background-color: #da5436;
+}
+
+li.synonym:hover {
+    background-color: #70ea74;
+    color: black;
+}
+
+li.synonym::selection {
+    color: red;
+    background: yellow;
+}
+
 @keyframes spin1 { 100% { transform:rotate(360deg); } }
 @keyframes spin2 { 100% { transform:rotate(-360deg); } }
 @keyframes idle { 100% {} }
