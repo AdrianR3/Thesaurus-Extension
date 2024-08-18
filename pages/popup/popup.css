@@ -178,3 +178,11 @@ form input:nth-child(2)#go {
     /* bottom: 0; */
     /* left: 0; right: 0; */
 }
+
+li {
+    list-style:none;
+}
+
+@keyframes spin1 { 100% { transform:rotate(360deg); } }
+@keyframes spin2 { 100% { transform:rotate(-360deg); } }
+@keyframes idle { 100% {} }
