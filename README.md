@@ -1,5 +1,4 @@
-# Easy Thesaurus Extension 
-
+# Easy Thesaurus Extension <img src="https://github.com/AdrianR3/Thesaurus-Extension/blob/main/icons/icon512.png?raw=true" alt="Thesaurus Extension Icon" width="32" height="32">
 ## Installing
 
 1. Download the [latest release](https://github.com/AdrianR3/Thesaurus-Extension/releases/latest/) of the extension from the releases page.
