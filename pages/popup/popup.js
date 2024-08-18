@@ -69,9 +69,12 @@ async function processForm(e) {
             changeContent(synonyms);
 
             if (synonyms.length == 0) {
-                document.querySelector('html').style.height = "140px"
+                document.querySelector('html').style.height = "125px"
             } else {
-                document.querySelector('html').style.height = "600px"
+                document.querySelector('html').style.height = `${ Math.min(
+                    600, 
+                    document.getElementById("synonymList").offsetHeight + 71 + 10
+                ) }px`
             }
             document.getElementById('go').style.animation="idle";
         })
@@ -94,6 +97,7 @@ function changeContent(synonyms) {
     } else {
         synonyms.forEach(synonym => {
             const item = document.createElement('li');
+            item.setAttribute('href', `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${synonym}`) // Not Working Yet
             item.classList.add('synonym')
             item.textContent = synonym;
             synonymList.appendChild(item);

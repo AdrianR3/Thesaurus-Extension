@@ -12,6 +12,7 @@ html
 {
     /* Maximums: width: 800px;  height: 600px */
     width: 350px;
+    min-height: 70px;
     height: 70px;
 
     transition: height 0.5s;
@@ -166,7 +167,7 @@ form input:nth-child(2)#go {
     background-color: var(--d-bg-color);
     color: var(--d-text-color);
 
-    max-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
     transform: translateY(70px);
 
     padding: 10px;
@@ -175,7 +176,7 @@ form input:nth-child(2)#go {
     left: 0px;
     right: 0px;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     
     /* width: auto; */
     /* top: 20px; */
