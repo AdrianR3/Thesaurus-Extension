@@ -10,7 +10,13 @@
       "default_title": "Thesaurus Extension",
       "default_popup": "pages/popup/popup.html"
     },
-    "permissions": [],
+    "permissions": [
+      "contextMenus",
+      "activeTab",
+      "scripting",
+      "action",
+      "storage"
+    ],
     "content_scripts": [
       {
         "matches": [

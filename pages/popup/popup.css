@@ -10,9 +10,11 @@
 
 html
 {
-    /*width: 800px;  /* max: 800px */
-    width: 300px;  /* max: 800px */
-    height: 600px; /* max: 600px */
+    /* Maximums: width: 800px;  height: 600px */
+    width: 300px;
+    height: 71px;
+
+    transition: height 0.5s;
 }
 
 :root {
@@ -164,7 +166,7 @@ form input:nth-child(2)#go {
     background-color: var(--d-bg-color);
     color: var(--d-text-color);
 
-    min-height: calc(100vh - 80px);
+    max-height: calc(100vh - 80px);
     transform: translateY(70px);
 
     padding: 10px;
@@ -172,6 +174,8 @@ form input:nth-child(2)#go {
     position: absolute;
     left: 0px;
     right: 0px;
+
+    overflow-y: scroll;
     
     /* width: auto; */
     /* top: 20px; */
@@ -179,8 +183,12 @@ form input:nth-child(2)#go {
     /* left: 0; right: 0; */
 }
 
+ol#synonymList {
+    padding-bottom: 8px;
+}
+
 li {
-    list-style:none;
+    list-style: none;
 }
 
 @keyframes spin1 { 100% { transform:rotate(360deg); } }
