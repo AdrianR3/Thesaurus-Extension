@@ -202,9 +202,21 @@ li.synonym {
     margin: 5px;
     text-align: center;
     white-space: nowrap;
-    user-select: all;
+    user-select: none;
+    cursor: pointer;
     transition: background-color 0.25s;
 }
+
+#synonymList.copy-mode li.synonym {
+    cursor: copy;
+}
+
+#synonymList.copy-mode li.synonym:hover {
+    font-weight: bold;
+}
+
+/* #menu li { padding: 0px; } */
+li.synonym a { margin: 0px; display: block; width: 100%; height: 100%; }
 
 li.none-found {
     background-color: #af5e4c;

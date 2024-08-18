@@ -27,10 +27,14 @@ console.log(`Word: ${document.getElementById('search').value}`)
 let form = document.getElementById('searchForm');
 if (form.attachEvent) {
     form.attachEvent("submit", processForm);
-    form.attachEvent("keyup", keyEvent);
+    // form.attachEvent("keyup", keyEvent);
+    document.attachEvent("keyup", keyEvent);
+    document.attachEvent("keydown", keyEvent);
 } else {
     form.addEventListener("submit", processForm);
-    form.addEventListener("keyup", keyEvent);
+    // form.addEventListener("keyup", keyEvent);
+    document.addEventListener("keyup", keyEvent);
+    document.addEventListener("keydown", keyEvent);
 }
 
 async function processForm(e) {
@@ -97,13 +101,24 @@ function changeContent(synonyms) {
     } else {
         synonyms.forEach(synonym => {
             const item = document.createElement('li');
-            item.setAttribute('href', `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${synonym}`) // Not Working Yet
+            // item.setAttribute('href', `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${synonym}`)
+            item.addEventListener('click', synonymClick);
             item.classList.add('synonym')
             item.textContent = synonym;
             synonymList.appendChild(item);
         });
     }
     
+}
+
+function synonymClick(e) {
+    if (!e.shiftKey) {
+        window.location.href = `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${e.target.innerText}`;
+        console.log(`Navigating to '${e.target.innerText}'.`)
+    } else {
+        navigator.clipboard.writeText(e.target.innerText);
+        console.log(`'${e.target.innerText}' copied to clipboard.`)
+    }
 }
 
 function findValuesByKey(obj, targetKey) {
@@ -130,8 +145,17 @@ function findValuesByKey(obj, targetKey) {
 }
 
 function keyEvent(e) {
+    console.log(e)
     if (e.keyCode == 9) {
-        console.log("Tab key pressed")
+        if (e.type != "keydown") return;
         e.preventDefault();
+        console.log("Tab key pressed")
+    } else if (e.keyCode == 16) {
+        // console.log(e.type)
+        if (e.type == 'keyup') {
+            document.getElementById('synonymList').classList.remove('copy-mode');
+        } else if (e.type == 'keydown') {
+            document.getElementById('synonymList').classList.add('copy-mode');
+        }
     }
 }
