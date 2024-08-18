@@ -70,7 +70,9 @@ async function processForm(e) {
         .then(response => {
             console.log(response)
             const synonyms = useMerriamWebster ? findValuesByKey(response, "syns") : findValuesByKey(response, "synonyms");
+            const antonyms = useMerriamWebster ? findValuesByKey(response, "ants") : findValuesByKey(response, "antonyms");
             changeContent(synonyms);
+            changeContent(antonyms, true, false);
 
             if (synonyms.length == 0) {
                 document.querySelector('html').style.height = "125px"
@@ -88,22 +90,22 @@ async function processForm(e) {
     return false;
 }
 
-function changeContent(synonyms) {
+function changeContent(synonyms, isAntonym = false, clear = true) {
     const synonymList = document.getElementById('synonymList');
 
-    synonymList.innerHTML = '';
+    if (clear) synonymList.innerHTML = '';
     
     if (synonyms.length == 0) {
         const item = document.createElement('li');
-        item.classList.add('synonym', 'none-found')
-        item.textContent = "No Results Found"
+        item.classList.add(isAntonym ? 'antonym' : 'synonym', 'none-found')
+        item.textContent = `No ${isAntonym ? 'Antonyms' : 'Synonyms'} Found`
         synonymList.appendChild(item);
     } else {
         synonyms.forEach(synonym => {
             const item = document.createElement('li');
-            // item.setAttribute('href', `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${synonym}`)
+            item.setAttribute('href', `https://www.merriam-webster.com/dictionary/${synonym}`)
             item.addEventListener('click', synonymClick);
-            item.classList.add('synonym')
+            item.classList.add(isAntonym ? 'antonym' : 'synonym')
             item.textContent = synonym;
             synonymList.appendChild(item);
         });
@@ -112,12 +114,15 @@ function changeContent(synonyms) {
 }
 
 function synonymClick(e) {
-    if (!e.shiftKey) {
-        window.location.href = `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${e.target.innerText}`;
-        console.log(`Navigating to '${e.target.innerText}'.`)
-    } else {
+    console.log(e)
+    if (e.shiftKey) {
         navigator.clipboard.writeText(e.target.innerText);
         console.log(`'${e.target.innerText}' copied to clipboard.`)
+    } else if (e.altKey) {
+        chrome.tabs.create({url: e.target.getAttribute('href'), active: false});
+    } else {
+        window.location.href = `${chrome.runtime.getURL("pages/popup/popup.html")}?word=${e.target.innerText}`;
+        console.log(`Navigating to '${e.target.innerText}'.`)
     }
 }
 
@@ -151,11 +156,16 @@ function keyEvent(e) {
         e.preventDefault();
         console.log("Tab key pressed")
     } else if (e.keyCode == 16) {
-        // console.log(e.type)
         if (e.type == 'keyup') {
             document.getElementById('synonymList').classList.remove('copy-mode');
         } else if (e.type == 'keydown') {
             document.getElementById('synonymList').classList.add('copy-mode');
+        }
+    } else if (e.keyCode == 18) {
+        if (e.type == 'keyup') {
+            document.getElementById('synonymList').classList.remove('open-mode');
+        } else if (e.type == 'keydown') {
+            document.getElementById('synonymList').classList.add('open-mode');
         }
     }
 }

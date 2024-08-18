@@ -207,11 +207,34 @@ li.synonym {
     transition: background-color 0.25s;
 }
 
+li.antonym {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #af4e4c;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 5px;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
 #synonymList.copy-mode li.synonym {
     cursor: copy;
 }
 
 #synonymList.copy-mode li.synonym:hover {
+    font-weight: bold;
+}
+
+#synonymList.open-mode li.synonym {
+    cursor: alias;
+}
+
+#synonymList.open-mode li.synonym:hover {
     font-weight: bold;
 }
 
@@ -228,6 +251,11 @@ li.none-found:hover {
 
 li.synonym:hover {
     background-color: #70ea74;
+    color: black;
+}
+
+li.antonym:hover {
+    background-color: #f05c5a;
     color: black;
 }
 
