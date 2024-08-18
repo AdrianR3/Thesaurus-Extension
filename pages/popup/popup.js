@@ -1,5 +1,7 @@
 console.log("popup.js | Hello world!")
 
+const useMerriamWebster = true;
+
 const queryParameters = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
 });
@@ -31,7 +33,7 @@ if (form.attachEvent) {
     form.addEventListener("keyup", keyEvent);
 }
 
-function processForm(e) {
+async function processForm(e) {
     if (e && e.preventDefault) e.preventDefault();
 
     const word = document.getElementById('search').value;
@@ -44,19 +46,30 @@ function processForm(e) {
         // headers: {'User-Agent': 'insomnia/9.3.3'}
     };
 
-    const api = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    let key = "";
+    let api = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
 
-    // const key = "";
-    // const api = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${key}`
+    if (useMerriamWebster) {
+
+        await fetch(chrome.runtime.getURL('env.json'))
+            .then(response => response.json())
+            .then(data => {
+                key = data.api_key;
+                api = `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${word}?key=${key}`
+            })
+            .catch(error => console.error('Error loading JSON:', error));
+
+    }   
 
     fetch(api, options)
         .then(response => response.json())
         .then(response => {
-            const synonyms = findValuesByKey(response, "synonyms");
-            changeContent(synonyms)
+            console.log(response)
+            const synonyms = useMerriamWebster ? findValuesByKey(response, "syns") : findValuesByKey(response, "synonyms");
+            changeContent(synonyms);
 
             if (synonyms.length == 0) {
-                document.querySelector('html').style.height = "200px"
+                document.querySelector('html').style.height = "140px"
             } else {
                 document.querySelector('html').style.height = "600px"
             }
@@ -91,7 +104,6 @@ function changeContent(synonyms) {
 
 function findValuesByKey(obj, targetKey) {
     let results = [];
-
     function search(obj) {
         if (typeof obj !== 'object' || obj === null) return;
 
@@ -109,6 +121,7 @@ function findValuesByKey(obj, targetKey) {
     }
 
     search(obj);
+    results = [].concat(...results)
     return results;
 }
 
