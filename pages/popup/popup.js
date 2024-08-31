@@ -70,13 +70,15 @@ fetch(chrome.runtime.getURL('env.json'))
                     changeContent(synonyms);
                     changeContent(antonyms, true, false);
 
-                    if (synonyms.length == 0) {
-                        document.querySelector('html').style.height = "125px"
+                    if ((synonyms.length + antonyms.length) == 0) {
+                    // } else if (synonyms.length == 0 || antonyms.length == 0) {
+                        // document.querySelector('html').style.height = "125px"
+                        document.querySelector('html').style.height = "161px"
                     } else {
-                        document.querySelector('html').style.height = `${ Math.min(
+                        document.querySelector('html').style.height = `${Math.min(
                             600, 
                             document.getElementById("synonymList").offsetHeight + 71 + 10
-                        ) }px`
+                        )}px`
                     }
                     document.getElementById('go').style.animation="idle";
                 })
@@ -103,6 +105,7 @@ fetch(chrome.runtime.getURL('env.json'))
             } else {
                 synonyms.forEach(synonym => {
                     const item = document.createElement('li');
+
                     item.setAttribute('href', `https://www.merriam-webster.com/dictionary/${synonym}`)
                     item.addEventListener('click', synonymClick);
 
