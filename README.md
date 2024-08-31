@@ -22,3 +22,11 @@
 </details>
 
 [^1]: If you don't want to sign up for an API Key, set `use_merriam_webster` to false in `env.json`. [dictionaryapi.dev](https://dictionaryapi.dev/) will be used instead.
+
+## Screenshots
+
+<img src="https://raw.githubusercontent.com/AdrianR3/Thesaurus-Extension/316e270c9e5cb47be061cc429728f9817409b94c/images/go.png" width="25%"></img>
+<img src="https://raw.githubusercontent.com/AdrianR3/Thesaurus-Extension/316e270c9e5cb47be061cc429728f9817409b94c/images/elegant.png" width="25%"></img>
+<br>
+<img src="https://raw.githubusercontent.com/AdrianR3/Thesaurus-Extension/316e270c9e5cb47be061cc429728f9817409b94c/images/snobbish.png" width="25%"></img>
+<img src="https://raw.githubusercontent.com/AdrianR3/Thesaurus-Extension/316e270c9e5cb47be061cc429728f9817409b94c/images/not_a_real_word.png" width="25%"></img>
